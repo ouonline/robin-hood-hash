@@ -209,9 +209,13 @@ private:
     KeyEqual m_equal;
     GetKeyFromValue m_get_key_from_value;
 
+public:
+    RobinHoodHash1(RobinHoodHash1&&) = default;
+    RobinHoodHash1& operator=(RobinHoodHash1&&) = default;
+
 private:
-    RobinHoodHash1(const RobinHoodHash1&);
-    RobinHoodHash1& operator=(const RobinHoodHash1&);
+    RobinHoodHash1(const RobinHoodHash1&) = delete;
+    RobinHoodHash1& operator=(const RobinHoodHash1&) = delete;
 };
 
 /* -------------------------------------------------------------------------- */

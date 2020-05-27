@@ -95,8 +95,12 @@ public:
         return true;
     }
 
-    void Dump(const std::function<void (const void* data, uint64_t size)>& f) const {
-        f(m_table_info, sizeof(HashTableInfo) + m_table_info->table_size * sizeof(HashNode));
+    const char* Data() const {
+        return m_table_info;
+    }
+
+    uint64_t Size() const {
+        return sizeof(HashTableInfo) + m_table_info->table_size * sizeof(HashNode);
     }
 
     std::pair<char*, bool> Insert(const char* value) {
@@ -229,9 +233,13 @@ private:
     KeyEqual m_equal;
     GetKeyFromValue m_get_key_from_value;
 
+public:
+    RobinHoodHash2(RobinHoodHash2&&) = default;
+    RobinHoodHash2& operator=(RobinHoodHash2&&) = default;
+
 private:
-    RobinHoodHash2(const RobinHoodHash2&);
-    RobinHoodHash2& operator=(const RobinHoodHash2&);
+    RobinHoodHash2(const RobinHoodHash2&) = delete;
+    RobinHoodHash2& operator=(const RobinHoodHash2&) = delete;
 };
 
 }
