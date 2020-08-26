@@ -8,31 +8,11 @@ else
 	CXXFLAGS += -O2 -DNDEBUG
 endif
 
-TARGET := test_perf test_2 test_1
+TARGET := test_1 test_2 test_perf
 
 .PHONY: all clean distclean
 
 all: $(TARGET)
-
-omake_dep_2_INCLUDE := -I../..
-
-omake_dep_2.test_perf.cpp.o: test_perf.cpp
-	$(CXX) $(CXXFLAGS) -Wall -Werror -Wextra $(omake_dep_2_INCLUDE) -c $< -o $@
-
-test_perf_OBJS := omake_dep_2.test_perf.cpp.o
-
-test_perf: $(test_perf_OBJS)
-	$(CXX) $(CXXFLAGS) -Wextra -Werror -Wall -o $@ $^
-
-omake_dep_1_INCLUDE := -I../..
-
-omake_dep_1.test_2.cpp.o: test_2.cpp
-	$(CXX) $(CXXFLAGS) -Wall -Werror -Wextra $(omake_dep_1_INCLUDE) -c $< -o $@
-
-test_2_OBJS := omake_dep_1.test_2.cpp.o
-
-test_2: $(test_2_OBJS)
-	$(CXX) $(CXXFLAGS) -Wextra -Werror -Wall -o $@ $^
 
 omake_dep_0_INCLUDE := -I../..
 
@@ -42,10 +22,30 @@ omake_dep_0.test_1.cpp.o: test_1.cpp
 test_1_OBJS := omake_dep_0.test_1.cpp.o
 
 test_1: $(test_1_OBJS)
-	$(CXX) $(CXXFLAGS) -Wextra -Werror -Wall -o $@ $^
+	$(CXX) $(CXXFLAGS) -Wall -Werror -Wextra -o $@ $^
+
+omake_dep_1_INCLUDE := -I../..
+
+omake_dep_1.test_2.cpp.o: test_2.cpp
+	$(CXX) $(CXXFLAGS) -Wall -Werror -Wextra $(omake_dep_1_INCLUDE) -c $< -o $@
+
+test_2_OBJS := omake_dep_1.test_2.cpp.o
+
+test_2: $(test_2_OBJS)
+	$(CXX) $(CXXFLAGS) -Wall -Werror -Wextra -o $@ $^
+
+omake_dep_2_INCLUDE := -I../..
+
+omake_dep_2.test_perf.cpp.o: test_perf.cpp
+	$(CXX) $(CXXFLAGS) -Wall -Werror -Wextra $(omake_dep_2_INCLUDE) -c $< -o $@
+
+test_perf_OBJS := omake_dep_2.test_perf.cpp.o
+
+test_perf: $(test_perf_OBJS)
+	$(CXX) $(CXXFLAGS) -Wall -Werror -Wextra -o $@ $^
 
 clean:
-	rm -f $(TARGET) $(test_perf_OBJS) $(test_2_OBJS) $(test_1_OBJS)
+	rm -f $(TARGET) $(test_1_OBJS) $(test_2_OBJS) $(test_perf_OBJS)
 
 distclean:
 	$(MAKE) clean
